@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: ${SPRING_APPLICATION_NAME:user-server}
+  config:
+    import: ${SPRING_CONFIG_IMPORT:configserver:http://config-server-service:80}
+  cloud:
+    config:
+      uri: ${SPRING_CLOUD_CONFIG_IMPORT:http://config-server-service:80/}
+
+
+
+logging:
+  level:
+    root: info

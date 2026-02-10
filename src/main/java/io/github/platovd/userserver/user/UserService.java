@@ -22,19 +22,16 @@ public class UserService {
     private final UserMapper mapper;
     private final Validator validator;
 
-    @Transactional(readOnly = true)
     public UserResponse getUser(String userId) {
         return mapper.toResponse(repository.findById(userId).orElseThrow(() -> new UserNotFoundException("No user with id=" + userId)));
     }
 
-    @Transactional
     public String createUser(@Valid UserRequest request) {
         User user = mapper.toEntity(request);
         repository.save(user);
         return user.getId();
     }
 
-    @Transactional
     public void updateUser(String userId, @Valid UserRequest request) {
         User user = repository.findById(userId).orElseThrow(() -> new UserNotFoundException("No user with id=" + userId));
         mergeUser(user, request);
@@ -49,7 +46,6 @@ public class UserService {
         repository.save(user);
     }
 
-    @Transactional
     public void patchUser(String userId, JsonPatch patch) {
         User user = repository.findById(userId).orElseThrow(() -> new UserNotFoundException("No user with id=" + userId));
         UserRequest request = mapper.toRequest(user);
@@ -66,17 +62,14 @@ public class UserService {
         }
     }
 
-    @Transactional(readOnly = true)
     public boolean existsById(String userId) {
         return repository.existsById(userId);
     }
 
-    @Transactional(readOnly = true)
     protected boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
     }
 
-    @Transactional
     public void deleteUser(String userId) {
         repository.deleteById(userId);
     }

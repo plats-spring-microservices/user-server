@@ -51,6 +51,7 @@ public class UserMapper {
 
     public UserRequest toRequest(User user) {
         return new UserRequest(
+                user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getFirstName(),

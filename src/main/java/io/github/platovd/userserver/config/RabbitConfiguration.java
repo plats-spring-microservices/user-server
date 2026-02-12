@@ -30,19 +30,19 @@ public class RabbitConfiguration implements RabbitListenerConfigurer {
 
     @Override
     public void configureRabbitListeners(RabbitListenerEndpointRegistrar registrar) {
-        registrar.setMessageHandlerMethodFactory(messageHandlerMethodFactory());
+        registrar.setMessageHandlerMethodFactory(rabbitMessageHandlerMethodFactory());
     }
 
     @Bean
-    public DefaultMessageHandlerMethodFactory messageHandlerMethodFactory() {
+    public DefaultMessageHandlerMethodFactory rabbitMessageHandlerMethodFactory() {
         DefaultMessageHandlerMethodFactory factory = new DefaultMessageHandlerMethodFactory();
         factory.setValidator(validator);
-        factory.setMessageConverter(messageConverter());
+        factory.setMessageConverter(rabbitMessageConverter());
         return factory;
     }
 
     @Bean
-    public JacksonJsonMessageConverter messageConverter() {
+    public JacksonJsonMessageConverter rabbitMessageConverter() {
         return new JacksonJsonMessageConverter();
     }
 
@@ -53,12 +53,12 @@ public class RabbitConfiguration implements RabbitListenerConfigurer {
     }
 
     @Bean
-    public DirectExchange exchange() {
+    public DirectExchange rabbitExchange() {
         return new DirectExchange(exchangeName, true, false);
     }
 
     @Bean
-    public Binding binding(Queue queue, DirectExchange exchange) {
+    public Binding rabbitBinding(Queue queue, DirectExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(routingKey);
     }
 }

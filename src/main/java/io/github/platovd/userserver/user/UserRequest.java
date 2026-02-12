@@ -8,6 +8,8 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 public record UserRequest(
+        @NotNull(message = "Id is required")
+        String id,
         @NotBlank(message = "Username is required")
         String username,
         @Email(message = "Email should be valid")

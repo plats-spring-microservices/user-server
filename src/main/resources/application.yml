@@ -6,9 +6,3 @@ spring:
   cloud:
     config:
       uri: ${SPRING_CLOUD_CONFIG_IMPORT:http://config-server-service:80/}
-
-
-
-logging:
-  level:
-    root: info

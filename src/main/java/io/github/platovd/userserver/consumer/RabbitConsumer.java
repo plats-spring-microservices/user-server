@@ -1,6 +1,6 @@
 package io.github.platovd.userserver.consumer;
 
-import io.github.platovd.userserver.user.UserRequest;
+import io.github.platovd.userserver.user.UserCreationMessage;
 import io.github.platovd.userserver.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ public class RabbitConsumer {
     private final UserService userService;
 
     @RabbitListener(queues = "${queues.user-creation.name}")
-    public void receiveUserCreationMessage(@Valid @Payload UserRequest request) {
-        userService.createUser(request);
+    public void receiveUserCreationMessage(@Valid @Payload UserCreationMessage request) {
+        userService.createUserFromMessage(request);
     }
 }

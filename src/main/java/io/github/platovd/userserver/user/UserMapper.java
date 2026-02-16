@@ -67,4 +67,16 @@ public class UserMapper {
         JsonNode patched = patch.apply(target);
         return objectMapper.treeToValue(patched, UserRequest.class);
     }
+
+    public User toEntityFromMessage(UserCreationMessage message) {
+        return User.builder()
+                .id(message.id())
+                .username(message.username())
+                .email(message.email())
+                .firstName(message.firstName())
+                .lastName(message.lastName())
+                .provider(AuthProvider.valueOf(message.provider()))
+                .providerUserId(message.providerUserId())
+                .build();
+    }
 }

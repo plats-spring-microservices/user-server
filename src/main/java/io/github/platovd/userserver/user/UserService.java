@@ -11,7 +11,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -24,6 +23,12 @@ public class UserService {
 
     public UserResponse getUser(String userId) {
         return mapper.toResponse(repository.findById(userId).orElseThrow(() -> new UserNotFoundException("No user with id=" + userId)));
+    }
+
+    public String createUserFromMessage(UserCreationMessage message) {
+        User user = mapper.toEntityFromMessage(message);
+        repository.save(user);
+        return user.getId();
     }
 
     public String createUser(@Valid UserRequest request) {
